@@ -10,6 +10,11 @@
 
     <h1 class="fs-2 mb-3">Funcionários</h1>
 
+    @if (Session::get('sucesso'))
+        <div class="alert alert-success text-center">{{ Session::get('sucesso') }}</div>
+
+    @endif
+
     <table class="table table-striped">
         <thead class="table-dark">
           <tr class="text-center">
@@ -22,17 +27,25 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Foto</td>
-            <td>Jordan</td>
-            <td>Aluno</td>
-            <td>Sistema de Informação</td>
-            <td>
-                <a href="" title="Editar" class="btn btn-primary"><i class="bi bi-pen"></i></a>
-                <a href="" title="Deletar" class="btn btn-danger"><i class="bi bi-trash"></i></a>
-            </td>
-          </tr>
+            @foreach ($funcionarios as $funcionario)
+                <tr class="align-middle">
+                    <th class="text-center" scope="row">{{ $funcionario->id }}</th>
+                    <td class="text-center">
+                        @if (empty($funcionario->foto))
+                            <img src="/images/sombra_funcionario.jpg" alt="Foto" class="img-thumbnail" width="70">
+                        @else
+                            <img src="" alt="Fotos" class="img-thumbnail" width="70" >
+                        @endif
+                    </td>
+                    <td class="text-center">{{ $funcionario->nome }}</td>
+                    <td class="text-center">{{ $funcionario->cargo->descricao }}</td>
+                    <td class="text-center">{{ $funcionario->departamento->nome }}</td>
+                    <td>
+                        <a href="" title="Editar" class="btn btn-primary"><i class="bi bi-pen"></i></a>
+                        <a href="" title="Deletar" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+          @endforeach
 
         </tbody>
       </table>
