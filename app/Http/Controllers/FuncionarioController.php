@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cargo;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 
 class FuncionarioController extends Controller
@@ -21,7 +23,9 @@ class FuncionarioController extends Controller
     public function create()
     {
         // Retorna o formulário de cadastro do funcionário
-        return view('funcionarios.create');
+        $departamentos = Departamento::all()->sortBy('nome');
+        $cargos = Cargo::all()->sortBy('descricao');
+        return view('funcionarios.create', compact('departamentos', 'cargos'));
     }
 
     /**
@@ -29,7 +33,8 @@ class FuncionarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->toArray();
+        dd($input);
     }
 
     /**
