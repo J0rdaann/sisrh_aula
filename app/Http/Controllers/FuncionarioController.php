@@ -6,6 +6,8 @@ use App\Models\Cargo;
 use App\Models\Departamento;
 use App\Models\Funcionario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 class FuncionarioController extends Controller
 {
@@ -41,9 +43,26 @@ class FuncionarioController extends Controller
 
         $input['user_id'] = 1;
 
+        if($request->hasFile('foto')){
+            $input['foto'] = $this->uploadFoto($request->foto);
+        }
+
         Funcionario::create($input);
 
         return redirect()->route('funcionarios.index')->with('sucesso', 'Funcionario Cadastrado com sucesso');
+    }
+
+    //Função para redimensionar e realizar o upload da foto
+    private function uploadFoto($foto){
+        $nomeArquivo = $foto->hashName();
+
+        //Redimencionar foto
+        //$imagem = Image::make($foto)->fit(200,200);
+
+        //Salvar arquivo da foto
+        //Storage::put('public/funcionarios/'.$nomeArquivo, $imagem->encode());
+        $foto->store('public/funcionarios/');
+        return $nomeArquivo;
     }
 
     /**
