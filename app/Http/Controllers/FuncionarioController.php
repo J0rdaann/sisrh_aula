@@ -7,7 +7,7 @@ use App\Models\Departamento;
 use App\Models\Funcionario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Image;
+use Intervention\Image\Facades\Image;
 
 class FuncionarioController extends Controller
 {
@@ -57,11 +57,14 @@ class FuncionarioController extends Controller
         $nomeArquivo = $foto->hashName();
 
         //Redimencionar foto
-        //$imagem = Image::make($foto)->fit(200,200);
+        $imagem = Image::make($foto)->fit(200,200);
 
         //Salvar arquivo da foto
-        //Storage::put('public/funcionarios/'.$nomeArquivo, $imagem->encode());
-        $foto->store('public/funcionarios/');
+        Storage::put('public/funcionarios/'.$nomeArquivo, $imagem->encode());
+
+        //Upload sem redimensionar
+        //$foto->store('public/funcionarios/');
+
         return $nomeArquivo;
     }
 
@@ -70,7 +73,7 @@ class FuncionarioController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -78,7 +81,16 @@ class FuncionarioController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $funcionario  = Funcionario::find($id);
+
+        if(!$funcionario){
+            return back();
+        }
+
+        $departamentos = Departamento::all()->sortBy('nome');
+        $cargos = Cargo::all()->sortBy('descricao');
+
+        return view('funcionarios.edit', compact('funcionario', 'departamentos', 'cargos'));
     }
 
     /**
