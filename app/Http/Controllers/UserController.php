@@ -48,7 +48,7 @@ class UserController extends Controller
 
         $user->name = $request->input('name');
 
-        if ($request->has('password')) {
+        if ($request->password != null) {
             $user->password = bcrypt($request->input('password'));
         }
 
