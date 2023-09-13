@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 
 class DepartamentoController extends Controller
@@ -11,7 +12,8 @@ class DepartamentoController extends Controller
      */
     public function index()
     {
-        //
+        $departamentos = Departamento::all()->sortBy('nome');
+        return view('departamentos.index', compact('departamentos'));
     }
 
     /**
@@ -19,7 +21,8 @@ class DepartamentoController extends Controller
      */
     public function create()
     {
-        //
+        $departamentos = Departamento::all()->sortBy('nome');
+        return view('departamentos.create', compact('departamentos'));
     }
 
     /**
@@ -27,7 +30,14 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $input = $request->toArray();
+        //dd($input);
+
+        $input['user_id'] = 1;
+        Departamento::create($input);
+
+        return redirect()->route('departamentos.index')->with('sucesso', 'Departamento cadastrado com sucesso!');
     }
 
     /**
@@ -43,7 +53,13 @@ class DepartamentoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $departamento = Departamento::find($id);
+
+        if(!$departamento){
+            return back();
+        }
+
+        return view('departamentos.edit', compact('departamento'));
     }
 
     /**
@@ -51,7 +67,12 @@ class DepartamentoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $departamento = Departamento::find($id);
+
+        $departamento->nome = $request->input('nome');
+        $departamento->save();
+
+        return redirect()->route('departamentos.index')->with('sucesso', 'Funcionario alterado com sucesso!');
     }
 
     /**

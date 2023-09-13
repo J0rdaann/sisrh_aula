@@ -17,8 +17,6 @@ class FuncionarioController extends Controller
     public function index()
     {
         $funcionarios = Funcionario::all()->sortBy('nome');
-
-        // Receber os dados do banco através
         return view('funcionarios.index', compact('funcionarios'));
     }
 
@@ -27,7 +25,6 @@ class FuncionarioController extends Controller
      */
     public function create()
     {
-        // Retorna o formulário de cadastro do funcionário
         $departamentos = Departamento::all()->sortBy('nome');
         $cargos = Cargo::all()->sortBy('descricao');
         return view('funcionarios.create', compact('departamentos', 'cargos'));
@@ -39,7 +36,7 @@ class FuncionarioController extends Controller
     public function store(Request $request)
     {
         $input = $request->toArray();
-        // dd($input);
+        //dd($input);
 
         $input['user_id'] = 1;
 
@@ -47,33 +44,30 @@ class FuncionarioController extends Controller
             $input['foto'] = $this->uploadFoto($request->foto);
         }
 
+        //INSERT IN TABLE
         Funcionario::create($input);
 
-        return redirect()->route('funcionarios.index')->with('sucesso', 'Funcionario Cadastrado com sucesso');
+        return redirect()->route('funcionarios.index')->with('sucesso', 'Funcionário cadastrado com sucesso!');
     }
 
-    //Função para redimensionar e realizar o upload da foto
     private function uploadFoto($foto){
         $nomeArquivo = $foto->hashName();
 
-        //Redimencionar foto
+        //Redimensionar - Foto
         $imagem = Image::make($foto)->fit(200,200);
 
-        //Salvar arquivo da foto
+
+        //save photo archive
         Storage::put('public/funcionarios/'.$nomeArquivo, $imagem->encode());
-
-        //Upload sem redimensionar
         //$foto->store('public/funcionarios/');
-
         return $nomeArquivo;
     }
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-
+        //
     }
 
     /**
@@ -81,7 +75,7 @@ class FuncionarioController extends Controller
      */
     public function edit(string $id)
     {
-        $funcionario  = Funcionario::find($id);
+        $funcionario = Funcionario::find($id);
 
         if(!$funcionario){
             return back();
@@ -89,8 +83,8 @@ class FuncionarioController extends Controller
 
         $departamentos = Departamento::all()->sortBy('nome');
         $cargos = Cargo::all()->sortBy('descricao');
-
         return view('funcionarios.edit', compact('funcionario', 'departamentos', 'cargos'));
+
     }
 
     /**
@@ -103,7 +97,7 @@ class FuncionarioController extends Controller
         $funcionario = Funcionario::find($id);
 
         if($request->hasFile('foto')){
-            Storage::delete('public/funcionario/' .$funcionario['foto']);
+            Storage::delete('public/funcionarios/'.$funcionario['foto']);
             $input['foto'] = $this->uploadFoto($request->foto);
         }
 
@@ -119,14 +113,11 @@ class FuncionarioController extends Controller
     {
         $funcionario = Funcionario::find($id);
 
-        //Exclui a foto do funcionário
-        if(isset($funcionario['foto'])){
+        if($funcionario['foto'] != null){
             Storage::delete('public/funcionarios/'.$funcionario['foto']);
         }
 
-        //apagando o registro do banco de dados
         $funcionario->delete();
-
-        return redirect()->route('funcionarios.index')->with('sucesso', 'Funcionário excluído com sucesso.');
+        return redirect()->route('funcionarios.index')->with('sucesso', 'Funcionario deletado com sucesso!');
     }
 }

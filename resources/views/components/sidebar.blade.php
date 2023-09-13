@@ -1,6 +1,6 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 200px;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <img src="{{ asset('images/logo_black.png') }}" height="30px" alt="Logo SisRH">
+        <img src="{{ asset('images/logo_black.png') }}" height="30px" alt="Logo">
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
@@ -15,18 +15,23 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link text-white btn btn-primary text-start">
+            <a href="{{ route('cargos.index') }}" class="nav-link text-white btn btn-primary text-start">
                 <i class="bi bi-person-vcard mx-2 fs-5 align-middle"></i>Cargos
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link text-white btn btn-primary text-start">
-                <i class="bi bi-house-check mx-2 fs-5 align-middle"></i>Departamentos
+            <a href="{{ route('departamentos.index') }}" class="nav-link text-white btn btn-primary text-start">
+                <i class="bi bi-building mx-2 fs-5 align-middle"></i>Departamentos
             </a>
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link text-white btn btn-primary text-start">
                 <i class="bi bi-star mx-2 fs-5 align-middle"></i>Benefícios
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('users.index') }}" class="nav-link text-white btn btn-primary text-start">
+                <i class="bi bi-person mx-2 fs-5 align-middle"></i>Usuário
             </a>
         </li>
     </ul>

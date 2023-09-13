@@ -14,7 +14,6 @@
         <div class="bg-white p-3 shadow h-100">
             @yield('content')
         </div>
-
     </main>
 </body>
 </html>

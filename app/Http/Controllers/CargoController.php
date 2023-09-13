@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cargo;
 use Illuminate\Http\Request;
 
 class CargoController extends Controller
@@ -11,7 +12,8 @@ class CargoController extends Controller
      */
     public function index()
     {
-        //
+        $cargos = Cargo::all()->sortBy('descricao');
+        return view('cargos.index', compact('cargos'));
     }
 
     /**
@@ -19,7 +21,8 @@ class CargoController extends Controller
      */
     public function create()
     {
-        //
+        $cargos = Cargo::all()->sortBy('descricao');
+        return view('cargos.create', compact('cargos'));
     }
 
     /**
@@ -27,7 +30,13 @@ class CargoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->toArray();
+        //dd($input);
+
+        $input['user_id'] = 1;
+        Cargo::create($input);
+
+        return redirect()->route('cargos.index')->with('sucesso', 'Cargo cadastrado com sucesso!');
     }
 
     /**
@@ -43,7 +52,8 @@ class CargoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cargo = Cargo::find($id);
+        return view('cargos.edit', compact('cargo'));
     }
 
     /**
@@ -51,7 +61,12 @@ class CargoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $cargos = Cargo::find($id);
+
+        $cargos->descricao = $request->input('descricao');
+        $cargos->save();
+
+        return redirect()->route('cargos.index')->with('sucesso', 'Funcionario alterado com sucesso!');
     }
 
     /**
