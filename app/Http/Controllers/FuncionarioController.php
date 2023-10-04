@@ -14,10 +14,15 @@ class FuncionarioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $funcionarios = Funcionario::all()->sortBy('nome');
-        return view('funcionarios.index', compact('funcionarios'));
+        $funcionarios = Funcionario::where('nome', 'like','%'.$request->busca.'%')
+        ->orderBy('nome', 'asc')->paginate(3);
+
+        $totalFuncionarios = Funcionario::all()->count();
+
+        // Receber os dados do banco
+        return view('funcionarios.index', compact('funcionarios', 'totalFuncionarios'));
     }
 
     /**

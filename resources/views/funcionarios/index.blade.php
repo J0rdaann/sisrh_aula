@@ -8,10 +8,18 @@
     </x-btn-create>
     <h1 class="fs-2 mb-3">Lista Funcionários</h1>
 
+    <p>Total de Funcionários: {{ $totalFuncionarios }}</p>
+
     @if (Session::get('sucesso'))
         <div class="alert alert-success text-center">{{ Session::get('sucesso') }}</div>
 
     @endif
+
+    <x-busca>
+        <x-slot name="rota">{{ route('funcionarios.index') }}</x-slot>
+        <x-slot name="tipo">Funcionário</x-slot>
+
+    </x-busca>
 
     <table class="table table-striped">
         <thead class="table-dark">
@@ -53,4 +61,11 @@
           @endforeach
         </tbody>
       </table>
+
+      <style>
+        .pagination{
+            justify-content: center;
+        }
+      </style>
+      {{ $funcionarios->links() }}
 @endsection
