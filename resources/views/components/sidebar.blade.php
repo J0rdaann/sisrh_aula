@@ -39,14 +39,14 @@
     <div class="dropdown">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
             data-bs-toggle="dropdown" aria-expanded="false">
-            <strong>Usuário</strong>
+            <strong>{{ auth()->user()->name }}</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li><a class="dropdown-item" href="#">Alterar dados</a></li>
+            <li><a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}">Alterar dados</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Sair</a></li>
+            <li><a class="dropdown-item" href="{{ route('login.logout') }}">Sair</a></li>
         </ul>
     </div>
 </div>
