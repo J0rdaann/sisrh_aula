@@ -11,6 +11,11 @@ use Intervention\Image\Facades\Image;
 
 class FuncionarioController extends Controller
 {
+    /* Verificar se o usuário está logado no sistema */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      */

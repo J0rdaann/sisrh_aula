@@ -8,10 +8,18 @@
     </x-btn-create>
     <h1 class="fs-2 mb-3">Lista de Cargos</h1>
 
+    <p>Total de Cargos: {{ $totalCargos }}</p>
+
     @if (Session::get('sucesso'))
         <div class="alert alert-success text-center">{{ Session::get('sucesso') }}</div>
 
     @endif
+
+    <x-busca>
+        <x-slot name="rota">{{ route('cargos.index') }}</x-slot>
+        <x-slot name="tipo">Cargos</x-slot>
+
+    </x-busca>
 
     <table class="table table-striped">
         <thead class="table-dark">
@@ -36,4 +44,10 @@
 
         </tbody>
       </table>
+      <style>
+        .pagination{
+            justify-content: center;
+        }
+      </style>
+      {{ $cargos->links() }}
 @endsection

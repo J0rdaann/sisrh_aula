@@ -7,13 +7,26 @@ use Illuminate\Http\Request;
 
 class CargoController extends Controller
 {
+    /* Verificar se o usuário está logado no sistema */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cargos = Cargo::all()->sortBy('descricao');
-        return view('cargos.index', compact('cargos'));
+        /*$cargos = Cargo::all()->sortBy('descricao');
+        return view('cargos.index', compact('cargos'));*/
+
+        $cargos = Cargo::where('descricao', 'like','%'.$request->busca.'%')
+        ->orderBy('descricao', 'asc')->paginate(3);
+
+        $totalCargos = Cargo::all()->count();
+
+        // Receber os dados do banco
+        return view('cargos.index', compact('cargos', 'totalCargos'));
     }
 
     /**
