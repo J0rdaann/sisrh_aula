@@ -18,17 +18,19 @@
           <tr class="text-center">
             <th scope="col">ID</th>
             <th scope="col">Nome</th>
-            <th scope="col">Ações</th>
+            <th scope="col" width="100">Funcionários</th>
+            <th scope="col" width="110px">Ações</th>
           </tr>
         </thead>
         <tbody>
 
-            @foreach ($departamentos as $departamentos)
+            @foreach ($departamentos as $departamento)
           <tr>
-            <th class="text-center" scope="row">{{ $departamentos->id }}</th>
-            <td class="text-center">{{ $departamentos->nome}}</td>
+            <th class="text-center" scope="row">{{ $departamento->id }}</th>
+            <td class="text-center">{{ $departamento->nome}}</td>
+            <td class="text-center">{{ $departamento->funcionariosAtivos->count();}}</td>
             <td class="text-center">
-                <a href="{{ route('departamentos.edit', $departamentos->id) }}" title="Editar" class="btn btn-primary"><i class="bi bi-pen"></i></a>
+                <a href="{{ route('departamentos.edit', $departamento->id) }}" title="Editar" class="btn btn-primary"><i class="bi bi-pen"></i></a>
                 <a href="" title="Deletar" class="btn btn-danger"><i class="bi bi-trash"></i></a>
             </td>
           </tr>

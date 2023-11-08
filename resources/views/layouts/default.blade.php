@@ -10,7 +10,7 @@
 </head>
 <body class="d-flex flex-nowrap min-vh-100">
     <x-sidebar/>
-    <main class="container-fluid p-4 bg-light">
+    <main class="container-fluid p-2 bg-light" style="padding-left: 210px !important">
         <div class="bg-white p-3 shadow h-100">
             @yield('content')
         </div>

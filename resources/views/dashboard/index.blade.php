@@ -1,6 +1,6 @@
-@extends('layouts.default');
+@extends('layouts.default')
 
-@section('title', 'SisRH - Dashboard');
+@section('title', 'SisRH - Dashboard')
 
 @section('content')
 
@@ -65,17 +65,26 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-
         const graficoDepartamentos = document.getElementById('grafico-departamentos');
 
         new Chart(graficoDepartamentos, {
             type: 'bar',
             data: {
-                labels: ['jan', 'fev'],
+                //labels: ['jan', 'fev', 'marco'],
+                labels: [
+                    @foreach ($departamentos as $departamento)
+                        '{{ $departamento->nome }}',
+                    @endforeach
+                ],
+
                 datasets: [{
                     axis: 'y',
                     label: '',
-                    data: [10, 50],
+                    data: [
+                        @foreach ($departamentos as $departamento)
+                            {{ $departamento->funcionariosAtivos->count(); }},
+                        @endforeach
+                    ],
                     fill: false,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -110,26 +119,34 @@
 
         const graficoCargos = document.getElementById('grafico-cargos');
 
-        new Chart(graficoCargos, {
-            type: 'doughnut',
-            data: {
-                labels: ['jan', 'fev'],
-                datasets: [{
-                    label: '',
-                    data: [20, 30],
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(255, 159, 64)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)',
-                        'rgb(54, 162, 235)',
-                        'rgb(153, 102, 255)',
-                        'rgb(201, 203, 207)'
+            new Chart(graficoCargos, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        @foreach ($cargos as $cargo)
+                            '{{ $cargo->descricao }}',
+                        @endforeach
                     ],
-                    hoverOffset: 10,
-                }]
-            },
-        });
+                    datasets: [{
+                        label: '',
+                        data: [
+                            @foreach ($cargos as $cargo)
+                                {{ $cargo->funcionariosAtivos->count(); }},
+                            @endforeach
+                        ],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                            'rgb(201, 203, 207)'
+                        ],
+                        hoverOffset: 10,
+                    }]
+                },
+            });
     </script>
 </div>
 
