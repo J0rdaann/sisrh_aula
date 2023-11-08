@@ -10,13 +10,14 @@
     <label for="email" class="form-label">Senha</label>
     <input type="password" class="form-control" id="password" name="password" value="" @required(!isset($user->password))>
     </div>
+    {{-- Exibe o camp tipo se o unuário for ADMIM --}}
+    @can('type-user')
     <div class="col-md-4">
         <label for="tipo" class="form-label">Tipo</label>
-        <select id="tipo" name="tipo" class="form-select">
+        <select id="tipo" name="tipo" class="form-select" required>
             <option value="usuario" {{ old('tipo', isset($user) ? $user->tipo : '') == 'usuario' ? 'selected' : '' }}>usuario</option>
             <option value="admin" {{ old('tipo', isset($user) ? $user->tipo : '') == 'admin' ? 'selected' : '' }}>admin</option>
         </select>
-
-
+    @endcan
     </div>
 

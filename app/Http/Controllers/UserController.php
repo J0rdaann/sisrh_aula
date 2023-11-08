@@ -17,20 +17,20 @@ class UserController extends Controller
     public function index()
     {
 
-        if(Gate::allows('type-user')){
+        if (Gate::allows('type-user')) {
             $user = User::all()->sortBy('name');
             return view('users.index', compact('user'));
-        }else{
+        } else {
             return back();
         }
     }
 
     public function create()
     {
-        if(Gate::allows('type-user')){
-        $user = new User();
-        return view('users.create', compact('user'));
-        }else{
+        if (Gate::allows('type-user')) {
+            $user = new User();
+            return view('users.create', compact('user'));
+        } else {
             return back();
         }
     }
@@ -51,38 +51,38 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if(!$user){
+        if (!$user) {
             return back();
         }
 
-        if(auth()->user()->id == $user['id'] || auth()->user()->tipo == 'admin'){
-           return view('users.edit', compact('user'));
-        }else {
+        if (auth()->user()->id == $user['id'] || auth()->user()->tipo == 'admin') {
+            return view('users.edit', compact('user'));
+        } else {
             return back();
         }
-
-
     }
 
     public function update(Request $request, string $id)
     {
         $user = User::find($id);
-
+        $input = $request->all();
         $user->name = $request->input('name');
 
         if ($request->password != null) {
             $user->password = bcrypt($request->input('password'));
         }
 
-        $user->tipo = $request->input('tipo');
-
+        $user->fill($input);
         $user->save();
 
-        return redirect()->route('users.index')->with('sucesso', 'Usuário alterado com sucesso!');
+        if ($user->tipo == "admin") {
+            return redirect()->route('users.index')->with('sucesso', 'Usuário alterado com sucesso!');
+        } else {
+            return redirect()->route('users.index', $user->id)->with('sucesso', 'Usuário alterado com sucesso!');
+        }
     }
 
     public function destroy(User $user)
     {
-
     }
 }
