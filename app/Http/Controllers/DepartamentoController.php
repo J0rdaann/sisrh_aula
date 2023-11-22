@@ -85,6 +85,8 @@ class DepartamentoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $departamento = Departamento::find($id);
+        $departamento->delete();
+        return redirect()->route('departamentos.index')->with('sucesso', 'Departamento deletado com sucesso!');
     }
 }

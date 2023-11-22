@@ -18,7 +18,6 @@
     <x-busca>
         <x-slot name="rota">{{ route('funcionarios.index') }}</x-slot>
         <x-slot name="tipo">Funcionário</x-slot>
-
     </x-busca>
 
     <table class="table table-striped">

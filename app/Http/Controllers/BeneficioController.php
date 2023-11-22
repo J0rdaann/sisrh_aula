@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Beneficio;
 use Illuminate\Http\Request;
 
 class BeneficioController extends Controller
@@ -14,9 +15,15 @@ class BeneficioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $beneficios = Beneficio::where('descricao', 'like','%'.$request->busca.'%')
+        ->orderBy('descricao', 'asc')->paginate(3);
+
+        $totalBeneficios = Beneficio::all()->count();
+
+        // Receber os dados do banco
+        return view('beneficios.index', compact('beneficios', 'totalBeneficios'));
     }
 
     /**
@@ -24,7 +31,7 @@ class BeneficioController extends Controller
      */
     public function create()
     {
-        //
+        return view('beneficios.create');
     }
 
     /**
@@ -32,7 +39,11 @@ class BeneficioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->toArray();
+
+        Beneficio::create($input);
+
+        return redirect()->route('beneficios.index')->with('sucesso', 'Benefício cadastrado com sucesso!');
     }
 
     /**
@@ -48,7 +59,8 @@ class BeneficioController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $beneficio = Beneficio::find($id);
+        return view('beneficios.edit', compact('beneficio'));
     }
 
     /**
@@ -56,7 +68,12 @@ class BeneficioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $beneficios = Beneficio::find($id);
+
+        $beneficios->descricao = $request->input('descricao');
+        $beneficios->save();
+
+        return redirect()->route('beneficios.index')->with('sucesso', 'Benefício alterado com sucesso!');
     }
 
     /**
@@ -64,6 +81,8 @@ class BeneficioController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $beneficios = Beneficio::find($id);
+        $beneficios->delete();
+        return redirect()->route('beneficios.index')->with('sucesso', 'Benefício deletado com sucesso!');
     }
 }
