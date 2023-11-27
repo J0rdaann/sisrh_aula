@@ -4,7 +4,7 @@
 @section('content')
     <x-btn-create>
         <x-slot name="route">{{ @route('funcionarios.create') }}</x-slot>
-        <x-slot name="title">Cadastrar Funcrionário</x-slot>
+        <x-slot name="title">Cadastrar Funcionário</x-slot>
     </x-btn-create>
     <h1 class="fs-2 mb-3">Lista Funcionários</h1>
 

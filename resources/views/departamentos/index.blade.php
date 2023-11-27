@@ -8,6 +8,8 @@
     </x-btn-create>
     <h1 class="fs-2 mb-3">Lista de Departamentos</h1>
 
+    <p>Total de Departamentos: {{ $totalDepartamentos }}</p>
+
     @if (Session::get('sucesso'))
         <div class="alert alert-success text-center">{{ Session::get('sucesso') }}</div>
 
